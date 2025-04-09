@@ -15,7 +15,7 @@
     "adding": "Agregando al carro...",
     "image": "Pase el cursor sobre la imagen para ampliar.",
     "added": "Producto agregado al carrito con éxito.",
-    "cart": "Carrito",
+    "cart": "Carro",
     "subtotal": "Subtotal",
     "tax": "Impuestos",
     "delivery": "Envío",
@@ -25,5 +25,6 @@
     "loading": "Cargando...",
     "empty": "Tu carrito está vacío",
     "emptymsg": "Parece que aún no has añadido ningún producto.",
-    "shop": "Explorar Productos"
+    "shop": "Explorar Productos",
+    "each": "cada uno"
   }

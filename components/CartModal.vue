@@ -26,7 +26,7 @@
           <!-- Header -->
           <div class="flex justify-between items-center p-6 border-b">
             <h2 id="cart-title" class="text-2xl font-bold">
-              Cart ({{ itemCount }})
+              {{ $t('cart') }} ({{ itemCount }})
             </h2>
             <button
               @click="closeModal"
@@ -88,7 +88,7 @@
                         <Icon name="mdi:delete" size="20" />
                       </button>
                     </div>
-                    <p class="text-gray-600 mt-1">{{ formatPrice(item.price) }} each</p>
+                    <p class="text-gray-600 mt-1">{{ formatPrice(item.price) }} {{ $t('each') }}</p>
 
                     <!-- Quantity Selector -->
                     <div class="flex items-center mt-2 space-x-2">
@@ -132,16 +132,16 @@
                 <div class="bg-gray-100 rounded-full p-6 mb-4">
                   <Icon name="mdi:cart-off" size="48" class="text-gray-400" />
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">Your cart is empty</h3>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $t('empty') }}</h3>
                 <p class="text-gray-600 mb-6 text-center">
-                  Looks like you haven't added any items to your cart yet.
+                  {{ $t('emptymsg') }}
                 </p>
                 <NuxtLink
                   to="/"
                   @click="closeModal"
                   class="px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors"
                 >
-                  Start Shopping
+                  {{ $t('shop') }}
                 </NuxtLink>
               </div>
             </div>
@@ -283,7 +283,6 @@ const formatPrice = (price) => {
   }).format(price)
 }
 
-// Lifecycle
 onMounted(() => {
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && isOpen.value) closeModal()
@@ -294,14 +293,12 @@ onUnmounted(() => {
   document.body.style.overflow = ''
 })
 
-// Watch
 watch(isOpen, (newVal) => {
   if (newVal) {
     nextTick(() => modal.value?.focus())
   }
 })
 
-// Expose
 defineExpose({ openModal })
 </script>
 
