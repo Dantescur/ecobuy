@@ -6,12 +6,12 @@
         <ol class="flex items-center space-x-2 text-sm">
           <li>
             <NuxtLink to="/" class="text-gray-500 hover:text-gray-700"
-              >Home</NuxtLink
+              >{{ $t('home') }}</NuxtLink
             >
           </li>
           <li class="text-gray-400">/</li>
           <li class="text-gray-900 font-medium">
-            {{ product?.title || "Loading..." }}
+            {{ product?.title || $t('loading') }}
           </li>
         </ol>
       </nav>
@@ -51,14 +51,13 @@
             </div>
             <div class="ml-3">
               <p class="text-sm text-red-700">
-                Fallo al cargar detalles del producto. Por favor pruebe mas
-                tarde.
+                {{ $t('searcherror') }}
               </p>
               <button
                 @click="() => refreshData()"
                 class="mt-2 text-sm text-red-700 hover:text-red-600 underline"
               >
-                Pruebe de nuevo
+                {{ $t('try') }}
               </button>
             </div>
           </div>
@@ -85,7 +84,7 @@
                 @error="handleImageError"
               />
             </div>
-            <p class="text-sm text-gray-500 mt-2 text-center">Hover to zoom</p>
+            <p class="text-sm text-gray-500 mt-2 text-center">{{ $t('image') }}</p>
           </div>
 
           <!-- Product Info Section -->
@@ -127,7 +126,7 @@
             <div class="border-t border-b py-4">
               <div class="flex items-center space-x-4">
                 <label for="quantity" class="text-sm font-medium text-gray-700">
-                  Quantity
+                  {{ $t('qty') }}
                 </label>
                 <div class="flex items-center border rounded-md">
                   <button
@@ -185,10 +184,10 @@
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     />
                   </svg>
-                  Agregando al carro...
+                  {{ $t('adding') }}
                 </span>
                 <span v-else>
-                  Add to Cart - {{ formatPrice(product.price * quantity) }}
+                  {{ $t('add') }} - {{ formatPrice(product.price * quantity) }}
                 </span>
               </button>
 
@@ -209,7 +208,7 @@
                       clip-rule="evenodd"
                     />
                   </svg>
-                  Agregado al carro satisfactoriamente!
+                  {{ $t('added') }}
                 </div>
               </div>
             </div>
@@ -230,7 +229,7 @@
                     d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
                   />
                 </svg>
-                Envio gratis en ordenes por encima de $50
+                {{ $t('offer') }}
               </div>
               <div class="flex items-center text-sm text-gray-500">
                 <svg
@@ -246,7 +245,7 @@
                     d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
                   />
                 </svg>
-                Politica de devolucion de 30 días
+                {{ $t('policy') }}
               </div>
             </div>
           </div>

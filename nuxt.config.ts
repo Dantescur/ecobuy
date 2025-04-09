@@ -13,6 +13,17 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
-    '@vueuse/nuxt'
-  ]
+    '@vueuse/nuxt',
+    '@nuxtjs/i18n'
+  ],
+  i18n: {
+    bundle: {
+      optimizeTranslationDirective: false
+    },
+    defaultLocale: 'es',
+    locales: [
+      { code: 'es', name: 'Spanish', file: 'es.json'},
+      { code: 'en', name: 'English', file: 'en.json' },
+    ]
+  }
 })

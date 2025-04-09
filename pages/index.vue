@@ -3,9 +3,9 @@
     <div class="container mx-auto p-6">
       <!-- Header Section -->
       <header class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-2">EcoBuy Store</h1>
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">{{ $t('name') }}</h1>
         <p class="text-gray-600">
-          Descubre eco-amigable productos para un estilo de vida sostenible
+          {{ $t('description') }}
         </p>
       </header>
 
@@ -17,7 +17,7 @@
           <input
             v-model="searchQuery"
             type="search"
-            placeholder="Search products..."
+            :placeholder="$t('search')"
             class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
           />
           <span class="absolute left-3 top-2.5 text-gray-400">
@@ -91,7 +91,7 @@
           </div>
           <div class="ml-3">
             <p class="text-sm text-red-700">
-              Fallo al cargar prosuctos. Por favor pruebe mas tarde.
+              {{ $t('searcherror') }}
             </p>
           </div>
         </div>
@@ -140,7 +140,7 @@
               :to="`/products/${product.id}`"
               class="block w-full text-center bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors duration-300"
             >
-              View Details
+              {{ $t('details') }}
             </NuxtLink>
           </div>
         </div>
@@ -165,11 +165,10 @@
           />
         </svg>
         <h3 class="mt-2 text-sm font-medium text-gray-900">
-          No products found
+          {{ $t('nofound') }}
         </h3>
         <p class="mt-1 text-sm text-gray-500">
-          Intenta cambiando la busqueda o filtrando para encontrar lo que estas
-          buscando.
+          {{ $t('suggest') }}
         </p>
       </div>
     </div>
