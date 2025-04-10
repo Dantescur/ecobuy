@@ -17,7 +17,7 @@
         <p class="text-xl font-bold text-green-600">{{ formatPrice(product.price) }}</p>
         <div class="text-sm text-gray-500">{{ product.category }}</div>
       </div>
-      <NuxtLink :to="`/products/${product.id}`" class="block w-full text-center bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors duration-300">
+      <NuxtLink prefetch-on="interaction" :to="`/products/${product.id}`" class="block w-full text-center bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors duration-300">
         {{ $t('details') }}
       </NuxtLink>
     </div>
