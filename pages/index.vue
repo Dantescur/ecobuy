@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-50">
     <div class="container mx-auto p-6">
-      <PageHeader />
+      
       <SearchFilter v-model:search="searchQuery" v-model:category="selectedCategory" :categories="categories" />
       <ProductGrid
         :products="filteredProducts"
@@ -14,7 +14,6 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import PageHeader from '~/components/products/PageHeader.vue'
 import SearchFilter from '~/components/products/SearchFilter.vue'
 import ProductGrid from '~/components/products/ProductGrid.vue'
 
