@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import BreadcrumbNav from '~/components/products/BreadcrumbNav.vue'
 import ErrorState from '~/components/ui/ErrorState.vue'
@@ -11,6 +10,17 @@ const route = useRoute()
 const { data: product, pending, error, refresh: refreshData } = await useFetch(
   `https://fakestoreapi.com/products/${route.params.id}`
 )
+
+const productName = computed(() => product.value.title);
+const productDescription = computed(() => product.value.description);
+const productImage = computed(() => product.value.image);
+
+useSeoMeta({
+  title: () => `${productName.value} - Product Details`,
+  description: () => productDescription.value,
+  ogImage: () => productImage.value,
+    
+})
 </script>
 
 <template>
