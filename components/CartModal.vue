@@ -162,7 +162,7 @@
                   <span>{{ formatPrice(shippingCost) }}</span>
                 </div>
                 <div class="flex justify-between text-lg font-semibold pt-2 border-t">
-                  <span>Total</span>
+                  <span>{{ $t('total') }}</span>
                   <span>{{ formatPrice(totalPrice) }}</span>
                 </div>
               </div>
@@ -172,9 +172,9 @@
                 :disabled="isCheckingOut"
               >
                 <span v-if="isCheckingOut">
-                  <Icon name="mdi:loading" class="animate-spin" /> Processing...
+                  <Icon name="mdi:loading" class="animate-spin" /> {{ $t('load') }}
                 </span>
-                <span v-else>Proceed to Checkout</span>
+                <span v-else>{{ $t('checkout') }}</span>
               </button>
             </div>
           </div>
