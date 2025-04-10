@@ -3,7 +3,16 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   image: {
-    format: ["webp"]
+    format: ["webp"],
+    provider: "ipx",
+    presets: {
+      default: {
+        modifiers: {
+          format: "webp",
+          quality: "80"
+        }
+      }
+    }
   },
   fonts: {
     defaults: {

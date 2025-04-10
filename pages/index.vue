@@ -2,19 +2,19 @@
   <div class="min-h-screen bg-gray-50">
     <div class="container mx-auto p-6">
 
-      <SearchFilter v-model:search="searchQuery" v-model:category="selectedCategory" :categories="categories" />
-      <ProductGrid :products="filteredProducts" :pending="status === 'pending'" :error="error" />
+      <ProductsSearchFilter v-model:search="searchQuery" v-model:category="selectedCategory" :categories="categories" />
+      <ProductsProductGrid :products="filteredProducts" :pending="status === 'pending'" :error="error" />
+
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
-import SearchFilter from '~/components/products/SearchFilter.vue'
-import ProductGrid from '~/components/products/ProductGrid.vue'
 
 const searchQuery = ref('')
 const selectedCategory = ref('')
+
 
 const { data: products, status, error } = await useFetch('/api/product')
 

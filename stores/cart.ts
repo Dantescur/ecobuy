@@ -9,10 +9,11 @@ export interface Product {
   category: string,
   price: number
   description: string
-  imageUrl: string,
+  image: string,
   rating: {
     rate: number,
-    count: number  }
+    count: number
+  }
 }
 
 export interface CartProduct extends Product {
