@@ -1,13 +1,9 @@
 <template>
   <div class="min-h-screen bg-gray-50">
     <div class="container mx-auto p-6">
-      
+
       <SearchFilter v-model:search="searchQuery" v-model:category="selectedCategory" :categories="categories" />
-      <ProductGrid
-        :products="filteredProducts"
-        :pending="pending"
-        :error="error"
-      />
+      <ProductGrid :products="filteredProducts" :pending="status === 'pending'" :error="error" />
     </div>
   </div>
 </template>
@@ -20,12 +16,7 @@ import ProductGrid from '~/components/products/ProductGrid.vue'
 const searchQuery = ref('')
 const selectedCategory = ref('')
 
-const { data: products, pending, error } = await useFetch('https://fakestoreapi.com/products', {
-  transform: (products) => products.map(product => ({
-    ...product,
-    image: product.image || '/placeholder-image.png',
-  })),
-})
+const { data: products, status, error } = await useFetch('/api/product')
 
 const categories = computed(() => {
   if (!products.value) return []

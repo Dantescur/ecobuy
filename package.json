@@ -27,7 +27,8 @@
     "onlyBuiltDependencies": [
       "@parcel/watcher",
       "esbuild",
-      "sharp"
+      "sharp",
+      "vue-demi"
     ]
   },
   "devDependencies": {

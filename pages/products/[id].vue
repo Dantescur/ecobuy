@@ -7,8 +7,8 @@ import ProductInfo from '~/components/products/ProductInfo.vue'
 
 const route = useRoute()
 
-const { data: product, pending, error, refresh: refreshData } = await useFetch(
-  `https://fakestoreapi.com/products/${route.params.id}`
+const { data: product, status, error, refresh: refreshData } = await useFetch(
+  `/api/products/${route.params.id}`
 )
 
 const productName = computed(() => product.value.title);
@@ -19,7 +19,7 @@ useSeoMeta({
   title: () => `${productName.value} - Product Details`,
   description: () => productDescription.value,
   ogImage: () => productImage.value,
-    
+
 })
 </script>
 
@@ -27,7 +27,7 @@ useSeoMeta({
   <div class="min-h-screen bg-gray-50">
     <div class="container mx-auto px-4 py-8">
       <BreadcrumbNav :product-title="product?.title" />
-      <div v-if="pending" class="max-w-6xl mx-auto">
+      <div v-if="status === 'pending'" class="max-w-6xl mx-auto">
         <div class="animate-pulse grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-gray-200 rounded-lg aspect-square"></div>
           <div class="space-y-4">

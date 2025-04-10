@@ -2,6 +2,9 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
+  image: {
+    format: ["webp"]
+  },
   fonts: {
     defaults: {
       subsets: ['Inter', 'sans-serif'],
@@ -14,7 +17,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
     '@vueuse/nuxt',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
   ],
   i18n: {
     bundle: {
@@ -22,7 +25,7 @@ export default defineNuxtConfig({
     },
     defaultLocale: 'es',
     locales: [
-      { code: 'es', name: 'Spanish', file: 'es.json'},
+      { code: 'es', name: 'Spanish', file: 'es.json' },
       { code: 'en', name: 'English', file: 'en.json' },
     ]
   }
