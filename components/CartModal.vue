@@ -2,37 +2,28 @@
   <Teleport to="body">
     <!-- Backdrop with fade animation -->
     <Transition name="fade">
-      <div
-        v-if="isOpen"
-        class="fixed inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm"
-        @click="closeModal"
-        aria-hidden="true"
-      ></div>
+      <div v-if="isOpen" class="fixed inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm" @click="closeModal"
+        aria-hidden="true"></div>
     </Transition>
 
     <!-- Modal with slide animation -->
     <Transition name="slide-left">
-      <div
-        v-if="isOpen"
-        class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-lg z-50"
-        role="dialog"
-        aria-labelledby="cart-title"
-        aria-modal="true"
-        ref="modal"
-        @keydown.esc="closeModal"
-        tabindex="0"
-      >
+      <div v-if="isOpen" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-lg z-50" role="dialog"
+        aria-labelledby="cart-title" aria-modal="true" ref="modal" @keydown.esc="closeModal" tabindex="0">
         <div class="flex flex-col h-full">
           <!-- Header -->
           <div class="flex justify-between items-center p-6 border-b">
             <h2 id="cart-title" class="text-2xl font-bold">
-              {{ $t('cart') }} ({{ itemCount }})
+              <span>
+                {{ $t('cart') }}
+              </span>
+              <span v-show="itemCount > 0">
+                ({{ itemCount }})
+              </span>
             </h2>
-            <button
-              @click="closeModal"
+            <button @click="closeModal"
               class="p-2 text-gray-600 hover:text-gray-800 rounded-full hover:bg-gray-100 transition-colors"
-              aria-label="Close cart"
-            >
+              aria-label="Close cart">
               <Icon name="mdi:close" size="24" />
             </button>
           </div>
@@ -47,10 +38,8 @@
             <div class="text-center">
               <Icon name="mdi:alert-circle" size="48" class="text-red-500 mx-auto mb-4" />
               <p class="text-red-500 text-lg mb-4">{{ error }}</p>
-              <button
-                @click="retryOperation"
-                class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
-              >
+              <button @click="retryOperation"
+                class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors">
                 Retry
               </button>
             </div>
@@ -61,30 +50,23 @@
             <!-- Cart Items -->
             <div class="flex-1 overflow-y-auto px-6">
               <TransitionGroup name="list" tag="ul" v-if="cartItems.length" class="space-y-4 py-4">
-                <li
-                  v-for="item in cartItems"
-                  :key="item.id"
-                  class="flex gap-4 p-4 bg-white rounded-lg border shadow-sm"
-                >
+                <li v-for="item in cartItems" :key="item.id"
+                  class="flex gap-4 p-4 bg-white rounded-lg border shadow-sm">
                   <!-- Item Image -->
                   <div class="w-24 h-24 bg-gray-100 rounded-md overflow-hidden">
-                    <img
-                      :src="item.image"
-                      :alt="item.title"
-                      class="w-full h-full object-cover"
-                      loading="lazy"
-                    />
+                    <NuxtImg :src="item.image" :alt="item.title" class="w-full h-full object-cover" loading="lazy" />
                   </div>
 
                   <!-- Item Details -->
                   <div class="flex-1">
                     <div class="flex justify-between">
-                      <h3 class="text-lg font-medium line-clamp-2">{{ item.title }}</h3>
-                      <button
-                        @click="removeFromCart(item.id)"
-                        class="text-gray-400 hover:text-red-500 transition-colors"
-                        :aria-label="'Remove ' + item.title"
-                      >
+                      <h3 @click="closeModal" class="text-lg font-medium line-clamp-2">
+                        <NuxtLink :to="`/products/${item.id}`">
+                          {{ item.title }}
+                        </NuxtLink>
+                      </h3>
+                      <button @click="removeFromCart(item.id)"
+                        class="text-gray-400 hover:text-red-500 transition-colors" :aria-label="'Remove ' + item.title">
                         <Icon name="mdi:delete" size="20" />
                       </button>
                     </div>
@@ -93,29 +75,18 @@
                     <!-- Quantity Selector -->
                     <div class="flex items-center mt-2 space-x-2">
                       <div class="flex items-center border rounded">
-                        <button
-                          @click="updateQuantity(item.id, item.quantity - 1)"
+                        <button @click="updateQuantity(item.id, item.quantity - 1)"
                           class="px-3 py-1 text-gray-600 hover:bg-gray-100 transition-colors"
                           :disabled="item.quantity <= 1 || isUpdating"
-                          :aria-label="'Decrease quantity of ' + item.title"
-                        >
+                          :aria-label="'Decrease quantity of ' + item.title">
                           <Icon name="mdi:minus" size="16" />
                         </button>
-                        <input
-                          type="number"
-                          v-model.number="item.quantity"
-                          @change="validateAndUpdateQuantity(item)"
-                          min="1"
-                          max="99"
-                          class="w-12 text-center border-x"
-                          :disabled="isUpdating"
-                        />
-                        <button
-                          @click="updateQuantity(item.id, item.quantity + 1)"
+                        <input type="number" v-model.number="item.quantity" @change="validateAndUpdateQuantity(item)"
+                          min="1" max="99" class="w-12 text-center border-x" :disabled="isUpdating" />
+                        <button @click="updateQuantity(item.id, item.quantity + 1)"
                           class="px-3 py-1 text-gray-600 hover:bg-gray-100 transition-colors"
                           :disabled="item.quantity >= 99 || isUpdating"
-                          :aria-label="'Increase quantity of ' + item.title"
-                        >
+                          :aria-label="'Increase quantity of ' + item.title">
                           <Icon name="mdi:plus" size="16" />
                         </button>
                       </div>
@@ -136,11 +107,8 @@
                 <p class="text-gray-600 mb-6 text-center">
                   {{ $t('emptymsg') }}
                 </p>
-                <NuxtLink
-                  to="/"
-                  @click="closeModal"
-                  class="px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors"
-                >
+                <NuxtLink to="/" @click="closeModal"
+                  class="px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors">
                   {{ $t('shop') }}
                 </NuxtLink>
               </div>
@@ -168,9 +136,7 @@
               </div>
               <button
                 class="w-full py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                @click="checkout"
-                :disabled="isCheckingOut"
-              >
+                @click="checkout" :disabled="isCheckingOut">
                 <span v-if="isCheckingOut">
                   <Icon name="mdi:loading" class="animate-spin" /> {{ $t('load') }}
                 </span>
@@ -205,7 +171,7 @@ const cartItems = computed(() => cartStore.items)
 const itemCount = computed(() => cartStore.itemCount)
 
 // Computed
-const subtotal = computed(() => 
+const subtotal = computed(() =>
   cartItems.value.reduce((total, item) => total + (item.price * item.quantity), 0)
 )
 const taxAmount = computed(() => subtotal.value * TAX_RATE)
@@ -237,7 +203,7 @@ const removeFromCart = async (id) => {
 
 const updateQuantity = async (id, quantity) => {
   if (quantity < 1 || quantity > 99) return
-  
+
   try {
     isUpdating.value = true
     error.value = null
