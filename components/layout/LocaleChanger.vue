@@ -12,15 +12,15 @@
     <Transition name="fade">
       <ul
         v-if="isOpen"
-        class="absolute right-0 mt-2 w-32 bg-white text-gray-800 rounded shadow-lg z-10"
+        class="absolute right-0 mt-2 w-14 bg-white text-gray-800 rounded shadow-lg z-10"
       >
         <li v-for="locale in locales" :key="locale.code">
           <button
             @click="changeLocale(locale.code)"
-            class="w-full text-left px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+            class="w-full text-left px-4 py-2 hover:bg-gray-600 focus:outline-none focus:bg-gray-300 rounded"
             :class="{ 'bg-gray-200': currentLocale === locale.code }"
           >
-            {{ locale.code }}
+            {{ locale.code === 'en' ? '🇺🇸' : '🇪🇸' }}
           </button>
         </li>
       </ul>
