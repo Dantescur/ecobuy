@@ -46,7 +46,7 @@
           </div>
 
           <!-- Cart Content -->
-          <div v-else class="flex-1 flex flex-col">
+          <div v-else class="flex-1 flex flex-col min-h-0">
             <!-- Cart Items -->
             <div class="flex-1 overflow-y-auto px-6">
               <TransitionGroup name="list" tag="ul" v-if="cartItems.length" class="space-y-4 py-4">
@@ -115,7 +115,7 @@
             </div>
 
             <!-- Cart Summary -->
-            <div v-if="cartItems.length" class="border-t bg-gray-50 p-6">
+            <div v-if="cartItems.length" class="sticky bottom-0 border-t bg-gray-50 p-6">
               <div class="space-y-2 mb-4">
                 <div class="flex justify-between text-gray-600">
                   <span>Subtotal</span>
