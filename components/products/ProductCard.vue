@@ -51,8 +51,8 @@
           <span class="text-xl font-bold text-green-600">
             {{ formatPrice(product.price) }}
           </span>
-          <span v-if="product.price" class="text-sm text-gray-400 line-through">
-            {{ formatPrice(product.price) }}
+          <span v-if="product.oldPrice" class="text-sm text-gray-400 line-through">
+            {{ formatPrice(product.oldPrice) }}
           </span>
         </div>
 
