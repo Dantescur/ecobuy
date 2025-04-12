@@ -1,19 +1,19 @@
 <template>
   <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
-    <!-- Image Container with Action Buttons -->
     <div class="relative aspect-square overflow-hidden">
-      <NuxtErrorBoundary @error="handleBoundError">
-        <NuxtImg :src="product.image" :alt="product.title"
-          class="object-contain w-full h-full p-6 transform group-hover:scale-105 transition-transform duration-300"
-          loading="lazy" placeholder />
-        <template #error="{ error }">
-          <p>Image failed to load. Please reload your page.</p>
-          <p>{{ error }}</p>
+      <NuxtLink :to="`/products/${product.id}`">
+        <NuxtErrorBoundary @error="handleBoundError">
+          <NuxtImg :src="product.image" :alt="product.title"
+            class="object-contain w-full h-full p-6 transform group-hover:scale-105 transition-transform duration-300"
+            loading="lazy" placeholder />
+          <template #error="{ error }">
+            <p>Image failed to load. Please reload your page.</p>
+            <p>{{ error }}</p>
+          </template>
+        </NuxtErrorBoundary>
+      </NuxtLink>
 
-        </template>
-      </NuxtErrorBoundary>
-      <!-- Action Buttons -->
-      <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <div class="absolute top-2 right-2 flex flex-col gap-2 z-10">
         <button @click="toggleWishlist"
           class="p-2 bg-white/90 rounded-full shadow-md hover:bg-white transition-colors duration-200"
           :class="{ 'text-red-500': isInWishlist, 'text-gray-600': !isInWishlist }">
@@ -24,13 +24,8 @@
           <Icon name="mdi:cart-plus" class="w-5 h-5 text-gray-600" />
         </button>
       </div>
-
-      <!-- Sale Badge -->
-      <!-- <div v-if="product.onSale"
-        class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded-md text-sm font-medium">
-        Sale
-      </div> -->
     </div>
+
 
     <!-- Product Information -->
     <div class="p-4 space-y-3">
@@ -68,7 +63,8 @@
       <!-- Action Buttons -->
       <div class="flex flex-col sm:flex-row gap-2 pt-2">
         <NuxtLink prefetch-on="interaction" :to="`/products/${product.id}`"
-          class="flex-1 text-center bg-green-600 text-white py-2.5 px-4 rounded-lg hover:bg-green-700 transition-colors duration-300 text-sm font-medium">
+          class="flex-1 text-center bg-green-600 text-white py-2.5 px-4 rounded-lg hover:bg-green-700 transition-colors duration-300 text-sm font-medium flex items-center justify-center gap-2">
+          <Icon name="mdi:invoice-list" class="w-5 h-5" />
           {{ $t('details') }}
         </NuxtLink>
         <button @click="addToCart"
@@ -88,12 +84,23 @@ const props = defineProps<{
   product: CartProduct
 }>()
 
+type WishList = {
+  isInWishlist: boolean,
+  productId: number
+}
+
+const emits = defineEmits<{
+  (e: 'toggle-wishlist', value: WishList): void,
+  (e: 'add-to-cart', productId: number): void
+}>()
+
+
 const isInWishlist = ref(false)
 
-const handleBoundError = (_error: unknown) => {
-  const error = _error instanceof Error ? _error : new Error(String(_error))
+const handleBoundError = (error: unknown) => {
   console.error("Error happened: ", error)
-  showError(error)
+  showError(error instanceof Error ? error : new Error(String(error)))
+
 }
 
 const formatPrice = (price: number) => {
@@ -107,7 +114,7 @@ const formatPrice = (price: number) => {
 const toggleWishlist = () => {
   isInWishlist.value = !isInWishlist.value
   // Emit event for parent component
-  emit('toggle-wishlist', {
+  emits('toggle-wishlist', {
     productId: props.product.id,
     isInWishlist: isInWishlist.value
   })
@@ -117,10 +124,10 @@ const cartStore = useCartStore()
 
 const addToCart = () => {
   // Emit event for parent component
+  emits('add-to-cart', props.product.id)
   cartStore.addItem(props.product)
 }
 
-const emit = defineEmits(['toggle-wishlist', 'add-to-cart'])
 </script>
 
 <style scoped>
