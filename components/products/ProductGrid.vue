@@ -47,7 +47,7 @@
 import ProductCard from '~/components/products/ProductCard.vue'
 
 defineProps<{
-  products: Product[],
+  products: CartProduct[],
   pending: boolean,
   error: Record<string, any> | null
 }>()

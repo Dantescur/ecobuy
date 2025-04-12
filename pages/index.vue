@@ -16,7 +16,9 @@ const searchQuery = ref('')
 const selectedCategory = ref('')
 
 
-const { data: products, status, error } = await useFetch('/api/product')
+const { data: products, status, error } = await useFetch<CartProduct[]>('/api/product', {
+  transform: (data) => data as CartProduct[]
+})
 
 const categories = computed(() => {
   if (!products.value) return []
