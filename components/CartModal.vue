@@ -2,13 +2,13 @@
   <Teleport to="body">
     <!-- Backdrop with fade animation -->
     <Transition name="fade">
-      <div v-if="isOpen" class="fixed inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm" @click="closeModal"
+      <div v-if="isOpen" class="fixed inset-0 bg-black bg-opacity-50 z-[1000] backdrop-blur-sm" @click="closeModal"
         aria-hidden="true"></div>
     </Transition>
 
     <!-- Modal with slide animation -->
     <Transition name="slide-left">
-      <div v-if="isOpen" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-lg z-50" role="dialog"
+      <div v-if="isOpen" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-lg z-[1001]" role="dialog"
         aria-labelledby="cart-title" aria-modal="true" ref="modal" @keydown.esc="closeModal" tabindex="0">
         <div class="flex flex-col h-full">
           <!-- Header -->
@@ -160,10 +160,12 @@ const isLoading = ref(false)
 const isUpdating = ref(false)
 const isCheckingOut = ref(false)
 const error = ref(null)
+const isSmallScreen = ref(false)
 
 // Constants
 const TAX_RATE = 0.1
 const SHIPPING_COST = 5.99
+const SM_BREAKPOINT = 640
 
 // Store
 const cartStore = useCartStore()
@@ -182,11 +184,25 @@ const totalPrice = computed(() => subtotal.value + taxAmount.value + shippingCos
 const openModal = () => {
   isOpen.value = true
   document.body.style.overflow = 'hidden'
+
+  if (isSmallScreen.value && import.meta.client) {
+    window.history.pushState({ modal: 'cart' }, '', window.location.href)
+  }
 }
 
 const closeModal = () => {
   isOpen.value = false
   document.body.style.overflow = ''
+
+  if (isSmallScreen.value && import.meta.client && window.history.state.modal === 'cart') {
+    window.history.back()
+  }
+}
+
+const handlePopstate = () => {
+  if (isOpen.value && isSmallScreen.value) {
+    closeModal()
+  }
 }
 
 const removeFromCart = async (id) => {
@@ -249,14 +265,32 @@ const formatPrice = (price) => {
   }).format(price)
 }
 
+const checkScreenSize = () => {
+  isSmallScreen.value = window.innerWidth < SM_BREAKPOINT
+}
+
 onMounted(() => {
+  if (import.meta.client) {
+    checkScreenSize()
+
+    window.addEventListener('resize', checkScreenSize)
+  }
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && isOpen.value) closeModal()
   })
+
+  window.addEventListener('popstate', handlePopstate)
 })
 
 onUnmounted(() => {
   document.body.style.overflow = ''
+  if (import.meta.client) {
+    window.removeEventListener('resize', checkScreenSize)
+    window.removeEventListener('popstate', handlePopstate)
+    window.removeEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen.value) closeModal()
+    })
+  }
 })
 
 watch(isOpen, (newVal) => {
